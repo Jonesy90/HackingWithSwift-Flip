@@ -14,6 +14,17 @@ class Board: NSObject {
     var rows: [[StoneColour]]
     var currentPlayer: Player
     
+    let moves = [
+        Move(row: -1, col: -1),
+        Move(row: -1, col: 0),
+        Move(row: -1, col: 1),
+        Move(row: 0, col: -1),
+        Move(row: 0, col: 1),
+        Move(row: 1, col: -1),
+        Move(row: 1, col: 0),
+        Move(row: 1, col: 1)
+    ]
+    
     override init() {
         //creating a new grid of empty stone.
         rows = Array(
@@ -35,5 +46,28 @@ class Board: NSObject {
         row >= 0 && col >= 0 && row < Board.size && col < Board.size
     }
     
-    
+    func canMoveIn(row: Int, col: Int) -> Bool {
+        guard isInBounds(row: row, col: col) else { return false }
+        guard rows[row][col] == .empty else { return false }
+        
+        for move in moves {
+            var currentRow = row + move.row
+            var currentCol = col + move.col
+            var opponentCount = 0
+            
+            //TODO: add description
+            while isInBounds(row: currentRow, col: currentRow) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
+                currentCol += move.col
+                currentRow += move.row
+                opponentCount += 1
+            }
+            
+            //TODO: add description
+            if opponentCount > 0 && isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.stoneColour {
+                return true
+            }
+        }
+        
+        return false
+    }
 }
