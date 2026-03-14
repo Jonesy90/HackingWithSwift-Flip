@@ -15,11 +15,11 @@ struct StoneView: View {
         case .empty:
             Color.clear
         case .black:
-            Image("white")
+            Image(.black)
         case .white:
-            Image("white")
+            Image(.white)
         case .choice:
-            Image("thinking")
+            Image(.thinking)
         }
     }
 }
