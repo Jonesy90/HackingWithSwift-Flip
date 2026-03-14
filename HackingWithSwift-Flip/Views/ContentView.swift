@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var viewModel = GameViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            Image("background")
+                .resizable()
+            
+            Image(.board)
+                .overlay{
+                    BoardView(viewModel: viewModel)
+                }
+            
         }
-        .padding()
     }
 }
 
