@@ -25,5 +25,5 @@ struct StoneView: View {
 }
 
 #Preview {
-    StoneView(colour: .black)
+    StoneView(colour: .white)
 }
