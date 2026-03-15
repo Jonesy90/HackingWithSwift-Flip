@@ -17,9 +17,9 @@ class Player: NSObject {
     var playerId: Int //required for GameplayKit
     var opponent: Player {
         if stoneColour == .black {
-            Player.allPlayers[0]
-        } else {
             Player.allPlayers[1]
+        } else {
+            Player.allPlayers[0]
         }
     }
     
