@@ -20,7 +20,7 @@ struct BoardView: View {
                             
                             if viewModel.board.canMoveIn(row: row, col: col) {
                                 Button {
-                                    //make a move here...
+                                    viewModel.makeMove(row: row, col: col)
                                 } label: {
                                     if viewModel.board.currentPlayer.stoneColour == .white {
                                         Color.white.opacity(0.2)

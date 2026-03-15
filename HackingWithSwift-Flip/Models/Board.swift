@@ -70,4 +70,30 @@ class Board: NSObject {
         
         return false
     }
+    
+    //TODO: add description
+    func makeMove(row: Int, col: Int) {
+        rows[row][col] = currentPlayer.stoneColour // the selected square now belongs to the currentPlayer and their stoneColour.
+        
+        // loop over the moves array but searching from every direction.
+        for move in moves {
+            var mightCapture = [Move]()
+            var currentRow = row + move.row
+            var currentCol = col + move.col
+            
+            while isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
+                mightCapture.append(Move(row: currentRow, col: currentCol))
+                currentRow += move.row
+                currentCol += move.col
+            }
+            
+            if mightCapture.isEmpty == false && isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.stoneColour {
+                for capture in mightCapture {
+                    rows[capture.row][capture.col] = currentPlayer.stoneColour
+                }
+            }
+        }
+        
+        currentPlayer = currentPlayer.opponent
+    }
 }

@@ -19,4 +19,9 @@ class GameViewModel {
         board.rows[4][3] = .black
         board.rows[4][4] = .white
     }
+    
+    //TODO: add description
+    func makeMove(row: Int, col: Int) {
+        board.makeMove(row: row, col: col)
+    }
 }
