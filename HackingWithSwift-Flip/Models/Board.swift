@@ -56,9 +56,9 @@ class Board: NSObject {
             var opponentCount = 0
             
             //TODO: add description
-            while isInBounds(row: currentRow, col: currentRow) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
-                currentCol += move.col
+            while isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
                 currentRow += move.row
+                currentCol += move.col
                 opponentCount += 1
             }
             

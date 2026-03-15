@@ -17,6 +17,19 @@ struct BoardView: View {
                     ForEach(0..<Board.size, id: \.self) { col in
                         ZStack {
                             StoneView(colour: viewModel.board.rows[row][col])
+                            
+                            if viewModel.board.canMoveIn(row: row, col: col) {
+                                Button {
+                                    //make a move here...
+                                } label: {
+                                    if viewModel.board.currentPlayer.stoneColour == .white {
+                                        Color.white.opacity(0.2)
+                                    } else {
+                                        Color.black.opacity(0.3)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
                         .frame(width: 60, height: 60)
                     }
