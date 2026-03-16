@@ -9,7 +9,7 @@ import Foundation
 import GameplayKit
 
 @Observable
-class Board: NSObject {
+class Board: NSObject, GKGameModel {
     static let size = 8
     
     var rows: [[StoneColour]]
@@ -104,5 +104,92 @@ class Board: NSObject {
         }
         
         currentPlayer = currentPlayer.opponent
+    }
+    
+    //TODO: add description
+    func gameModelUpdates(for player: any GKGameModelPlayer) -> [GKGameModelUpdate]? {
+        var moves = [Move]()
+        
+        for row in 0..<Board.size {
+            for col in 0..<Board.size {
+                if canMoveIn(row: row, col: col) {
+                    moves.append(Move(row: row, col: col))
+                }
+            }
+        }
+        
+        return moves.isEmpty ? nil : moves
+    }
+    
+    //TODO: add description
+    func setGameModel(_ gameModel: any GKGameModel) {
+        guard let board = gameModel as? Board else { return }
+        
+        currentPlayer = board.currentPlayer
+        rows = board.rows
+    }
+    
+    //TODO: add description
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Board()
+        
+        copy.setGameModel(self)
+        return copy
+    }
+    
+    //TODO: add description
+    func apply(_ gameModelUpdate: any GKGameModelUpdate) {
+        guard let move = gameModelUpdate as? Move else { return }
+        
+        makeMove(row: move.row, col: move.col)
+    }
+    
+    //TODO: add description
+    func getScores() -> (black: Int, white: Int) {
+        var black = 0
+        var white = 0
+        
+        for row in rows {
+            for stone in row {
+                if stone == .black {
+                    black += 1
+                } else if stone == .white {
+                    white += 1
+                }
+            }
+        }
+        
+        return (black, white)
+    }
+    
+    //TOOD: add description
+    func score(for player: any GKGameModelPlayer) -> Int {
+        guard let playerObject = player as? Player else { return 0 }
+        
+        let scores = getScores()
+        
+        var score = if playerObject.stoneColour == .black {
+            scores.black - scores.white
+        } else {
+            scores.white - scores.black
+        }
+        
+        //these are the (row, col) of the four corners of the board.
+        let corners = [
+            (0, 0),
+            (0, 7),
+            (7, 0),
+            (7, 7)
+        ]
+        
+        for (row, col) in corners {
+            if rows[row][col] == playerObject.stoneColour {
+                score += 10
+            } else if rows[row][col] == playerObject.opponent.stoneColour {
+                score -= 10
+            }
+        }
+        
+        return score
     }
 }
