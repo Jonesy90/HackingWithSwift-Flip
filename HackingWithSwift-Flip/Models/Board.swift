@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import GameplayKit
 
 @Observable
 class Board: NSObject {
@@ -24,6 +25,14 @@ class Board: NSObject {
         Move(row: 1, col: 0),
         Move(row: 1, col: 1)
     ]
+    
+    var players: [any GKGameModelPlayer]? {
+        Player.allPlayers
+    }
+    
+    var activePlayer: (any GKGameModelPlayer)? {
+        currentPlayer
+    }
     
     override init() {
         //creating a new grid of empty stone.

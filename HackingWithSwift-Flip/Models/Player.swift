@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import GameplayKit
 
-class Player: NSObject {
+class Player: NSObject, GKGameModelPlayer {
     static let allPlayers = [
         Player(stoneColour: .black),
         Player(stoneColour: .white)
