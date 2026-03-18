@@ -8,6 +8,10 @@
 import Foundation
 import GameplayKit
 
+/*
+ View-model class that bridges GameplayKit with SwiftUI.
+ Stores the real game board that the player can see.
+ */
 @Observable
 class GameViewModel {
     var board: Board

@@ -16,6 +16,7 @@ class Player: NSObject, GKGameModelPlayer {
     
     var stoneColour: StoneColour
     var playerId: Int //required for GameplayKit
+    //a computed property to make selecting the 'opponent' easier.
     var opponent: Player {
         if stoneColour == .black {
             Player.allPlayers[1]

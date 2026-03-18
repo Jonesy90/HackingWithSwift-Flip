@@ -8,6 +8,7 @@
 import Foundation
 import GameplayKit
 
+//a class to store the row and column of the player move.
 class Move: NSObject, GKGameModelUpdate {
     var row: Int
     var col: Int

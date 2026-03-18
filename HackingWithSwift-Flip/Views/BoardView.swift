@@ -10,6 +10,10 @@ import SwiftUI
 struct BoardView: View {
     var viewModel: GameViewModel
     
+    /*
+     View body draws a grid to the correct size (8x8).
+     Each cell of the grid will contains a StoneView in each.
+    */
     var body: some View {
         Grid(horizontalSpacing: 0, verticalSpacing: 0) {
             ForEach(0..<Board.size, id: \.self) { row in

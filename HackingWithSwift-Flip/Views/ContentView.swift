@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    //A property to create and store the view model.
     @State private var viewModel = GameViewModel()
     
     var body: some View {

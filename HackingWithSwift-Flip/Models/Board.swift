@@ -8,6 +8,7 @@
 import Foundation
 import GameplayKit
 
+//used to track the state of play.
 @Observable
 class Board: NSObject, GKGameModel {
     static let size = 8
@@ -15,6 +16,7 @@ class Board: NSObject, GKGameModel {
     var rows: [[StoneColour]]
     var currentPlayer: Player
     
+    //An array of 8 directions that can be searched in. All can be represented using the Move object.
     let moves = [
         Move(row: -1, col: -1),
         Move(row: -1, col: 0),
@@ -55,16 +57,28 @@ class Board: NSObject, GKGameModel {
         row >= 0 && col >= 0 && row < Board.size && col < Board.size
     }
     
+    /// Identifies if the requested move is valid.
+    /// - Parameters:
+    ///   - row: row selection.
+    ///   - col: column selection
+    /// - Returns: returns true or false if the move is valid.
     func canMoveIn(row: Int, col: Int) -> Bool {
+        //checks if the row and column values are in the bounds of the board.
         guard isInBounds(row: row, col: col) else { return false }
-        guard rows[row][col] == .empty else { return false }
+        //checks if the rows cell on the board is not empty.
+        guard rows[row][col] != .empty else { return false }
         
+        //Loops over all the array of moves.
         for move in moves {
             var currentRow = row + move.row
             var currentCol = col + move.col
             var opponentCount = 0
             
-            //TODO: add description
+            /*
+             1. checks if the new row and column is within bounds of the board.
+             AND
+             2. checks if the selected cell contains an opponents stone.
+            */
             while isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
                 currentRow += move.row
                 currentCol += move.col
@@ -80,29 +94,44 @@ class Board: NSObject, GKGameModel {
         return false
     }
     
-    //TODO: add description
+    
+    /// Finds where potential moves and captures can take place. Once found, it would replace the valid cells with the stone colour of the currentPlayer.
+    /// - Parameters:
+    ///   - row: row selection
+    ///   - col: column selection
     func makeMove(row: Int, col: Int) {
         rows[row][col] = currentPlayer.stoneColour // the selected square now belongs to the currentPlayer and their stoneColour.
         
         // loop over the moves array but searching from every direction.
         for move in moves {
-            var mightCapture = [Move]()
+            var mightCapture = [Move]() //tracks all the stones that might get captured.
             var currentRow = row + move.row
             var currentCol = col + move.col
             
+            /*
+             1. checks if the row and column are within the bounds of the board.
+             2. checks if the row and column cell contains a opponent stone.
+            */
             while isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.opponent.stoneColour {
+                //if both are true. it will add the row and column to 'mightCapture'.
                 mightCapture.append(Move(row: currentRow, col: currentCol))
                 currentRow += move.row
                 currentCol += move.col
             }
             
+            /*
+             1. checks if the 'mightCapture' array is empty.
+             2. checks if the row and column are within the bounds of the board.
+             3. checks if the cell of the row and column contain the currentPlayers stone.
+            */
             if mightCapture.isEmpty == false && isInBounds(row: currentRow, col: currentCol) && rows[currentRow][currentCol] == currentPlayer.stoneColour {
+                //if all the above is true, it will change all stones to the currentPlayers stone.
                 for capture in mightCapture {
                     rows[capture.row][capture.col] = currentPlayer.stoneColour
                 }
             }
         }
-        
+        //updating the currentPlayer.
         currentPlayer = currentPlayer.opponent
     }
     
