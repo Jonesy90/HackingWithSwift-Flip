@@ -66,7 +66,7 @@ class Board: NSObject, GKGameModel {
         //checks if the row and column values are in the bounds of the board.
         guard isInBounds(row: row, col: col) else { return false }
         //checks if the rows cell on the board is not empty.
-        guard rows[row][col] != .empty else { return false }
+        guard rows[row][col] == .empty else { return false }
         
         //Loops over all the array of moves.
         for move in moves {
@@ -187,6 +187,7 @@ class Board: NSObject, GKGameModel {
                 }
             }
         }
+        
         
         return (black, white)
     }

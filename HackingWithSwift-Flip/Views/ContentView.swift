@@ -20,8 +20,14 @@ struct ContentView: View {
                 .overlay{
                     BoardView(viewModel: viewModel)
                 }
-            
         }
+        .alert("Game Over", isPresented: $viewModel.isGameOver) {
+            Button("Play Again?", role: .confirm) { }
+        } message: {
+            let score = viewModel.board.getScores()
+            Text((score.black > score.white ? "Computer" : "Player") + " Wins!")
+        }
+        
     }
 }
 
