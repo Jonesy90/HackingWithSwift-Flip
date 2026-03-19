@@ -22,12 +22,13 @@ struct ContentView: View {
                 }
         }
         .alert("Game Over", isPresented: $viewModel.isGameOver) {
-            Button("Play Again?", role: .confirm) { }
+            Button("Play Again?", role: .confirm) {
+                viewModel = GameViewModel()
+            }
         } message: {
             let score = viewModel.board.getScores()
             Text((score.black > score.white ? "Computer" : "Player") + " Wins!")
         }
-        
     }
 }
 
