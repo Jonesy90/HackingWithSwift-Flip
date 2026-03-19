@@ -32,6 +32,7 @@ struct BoardView: View {
                                         Color.black.opacity(0.3)
                                     }
                                 }
+                                .disabled(viewModel.isAIThinking)
                                 .buttonStyle(.plain)
                             }
                         }

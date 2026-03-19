@@ -21,6 +21,7 @@ struct ContentView: View {
                     BoardView(viewModel: viewModel)
                 }
         }
+        .disabled(viewModel.isAIThinking)
         .alert("Game Over", isPresented: $viewModel.isGameOver) {
             Button("Play Again?", role: .confirm) {
                 viewModel = GameViewModel()
