@@ -19,6 +19,8 @@ class GameViewModel {
     var strategist = GKMinmaxStrategist()
     var isAIThinking: Bool = false
     var isGameOver = false
+    var isNewGame = true
+    var selectedLevel = 3
     
     var hasValidMoves: Bool {
         for row in 0..<Board.size {
@@ -40,7 +42,7 @@ class GameViewModel {
         board.rows[4][3] = .black
         board.rows[4][4] = .white
         
-        strategist.maxLookAheadDepth = 3
+        strategist.maxLookAheadDepth = selectedLevel
         strategist.gameModel = board
     }
     

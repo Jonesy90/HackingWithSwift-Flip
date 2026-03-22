@@ -21,7 +21,6 @@ struct BoardView: View {
                     ForEach(0..<Board.size, id: \.self) { col in
                         ZStack {
                             StoneView(colour: viewModel.board.rows[row][col])
-                            
                             if viewModel.board.canMoveIn(row: row, col: col) && viewModel.isGameOver == false && viewModel.isGameOver == false {
                                 Button {
                                     viewModel.makeMove(row: row, col: col)
